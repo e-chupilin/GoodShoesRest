@@ -1,3 +1,5 @@
+import by.training.rest.service.business.enums.Role;
+
 // default package
 // Generated 08.02.2017 19:54:05 by Hibernate Tools 5.2.0.CR1
 
@@ -126,6 +128,63 @@ public class UsersId implements java.io.Serializable {
 		result = 37 * result + (getFoto() == null ? 0 : this.getFoto().hashCode());
 		result = 37 * result + (getPassword() == null ? 0 : this.getPassword().hashCode());
 		return result;
+	}
+	
+	private UsersId(Builder b) {
+		this.login = b.login;
+		this.role = b.role.name();
+		this.name = b.name;
+		this.email = b.email;
+		this.phone = b.phone;
+		this.foto = b.foto;
+		this.password = b.password;
+		
+	}
+	
+	public static class Builder {
+		private String login;
+		private Role role;
+		private String name;
+		private String email;
+		private String phone;
+		private String foto;
+		private String password;
+		
+		public Builder(String login, String password) {
+			this.login = login;
+			this.password = password;
+		}
+		
+		public Builder role(Role role) {
+			this.role = role;
+			return this;
+		}
+		
+		public Builder name(String name) {
+			this.name = name;
+			return this;
+		}
+		
+		public Builder email(String email) {
+			this.email = email;
+			return this;
+		}
+		
+		public Builder phone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+		
+		public Builder foto(String foto) {
+			this.foto = foto;
+			return this;
+		}
+		
+		public UsersId build() {
+			return new UsersId(this);
+		}
+		
+		
 	}
 
 }

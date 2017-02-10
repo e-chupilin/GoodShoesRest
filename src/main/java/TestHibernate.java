@@ -10,15 +10,13 @@ import by.training.rest.service.hibernate.HibernateUtil;
 public class TestHibernate {
 
 	public static void main(String[] args) {	 
-	        UsersId userId = new UsersId();
-	        
-	        userId.setLogin("ded");
-	        userId.setRole(Role.BUYER.name());
-	        userId.setName("Ded name");
-	        userId.setEmail("ded@email.com");
-	        userId.setFoto("ded foto");
-	        userId.setPassword("12345");
-	        userId.setPhone("+37529111111");
+	        UsersId userId = new UsersId.Builder("capitan", "12345")
+	        		.name("Capitan America")
+	        		.email("qq@qq.com")
+	        		.foto("URL")
+	        		.role(Role.MANAGER)
+	        		.phone("+375291305666")
+	        		.build();
 	        
 	        Users user = new Users();
 	        user.setId(userId);
@@ -28,14 +26,14 @@ public class TestHibernate {
 	        try {
 	        session.beginTransaction();	        
 	                
-//	        session.save(user);	        
+	        session.save(user);	        
 	 
 	      
 	        session.getTransaction().commit();
 	 
 //	        Query q = session.createQuery("FROM Users");
 	        Query q = session.createQuery("FROM Users AS E WHERE E.id.login = :ded_param");
-	        q.setParameter("ded_param","dedq");
+	        q.setParameter("ded_param","capitan");
 	                 
 	        Collection <Users> resultList = q.list();
 	        System.out.println("num of user:" + resultList.size());
