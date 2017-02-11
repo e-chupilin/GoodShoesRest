@@ -4,29 +4,31 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import by.training.rest.service.business.beans.User;
+
 import by.training.rest.service.business.enums.Role;
 import by.training.rest.service.hibernate.HibernateUtil;
+
 
 public class TestHibernate {
 
 	public static void main(String[] args) {	 
-	        UsersId userId = new UsersId.Builder("capitan", "12345")
-	        		.name("Capitan America")
+	        User user = new User.Builder("capitan Zero", "12345")
+	        		.name("Capitan America 2")
 	        		.email("qq@qq.com")
 	        		.foto("URL")
 	        		.role(Role.MANAGER)
 	        		.phone("+375291305666")
 	        		.build();
 	        
-	        Users user = new Users();
-	        user.setId(userId);
+	        UsersId userId = new UsersId(user);
+	        Users users = new Users(userId);
 	        
 	        Session session = HibernateUtil.getSessionFactory().openSession();
 			  
 	        try {
 	        session.beginTransaction();	        
-	                
-	        session.save(user);	        
+	        
+	        session.save(users);	        
 	 
 	      
 	        session.getTransaction().commit();

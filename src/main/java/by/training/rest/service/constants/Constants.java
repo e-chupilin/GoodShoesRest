@@ -15,5 +15,8 @@ public class Constants {
 	public static final int EMPTY_SHOES_ID = 0;
 
 	public static final String IO_ERROR_JSON = "{error: get data from server error}";
+	
+	public static final String ERROR_USER_NOT_FOUND = "User not found.";
+	public static final String ERROR_USER_LOGIN_BUSY = "User not found.";
 
 }

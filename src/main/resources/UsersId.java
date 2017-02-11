@@ -1,3 +1,4 @@
+import by.training.rest.service.business.beans.User;
 import by.training.rest.service.business.enums.Role;
 
 // default package
@@ -18,6 +19,17 @@ public class UsersId implements java.io.Serializable {
 
 	public UsersId() {
 	}
+	
+	public UsersId(User user) {
+		this.login = user.getLogin();
+		this.role = user.getRole().name();
+		this.name = user.getName();
+		this.email = user.getEmail();
+		this.phone = user.getPhone();
+		this.foto = user.getFoto();
+		this.password = user.getPassword();
+	}
+
 
 	public UsersId(String login, String role, String email, String password) {
 		this.login = login;
