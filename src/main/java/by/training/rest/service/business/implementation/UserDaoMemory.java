@@ -28,8 +28,8 @@ public class UserDaoMemory implements UserDao {
 	public User getUser(String login, String password) throws GoodShoesUserException {
 		User searchUser = new User.Builder(login, password).build();
 		for (User user : users) {
-			if (user.equals(searchUser)) {
-				LOGGER.info("Get User from UserDaoMemory :" + user.toString());
+			if (user.equals(searchUser) && user.getPassword().equals(searchUser.getPassword())) {
+				LOGGER.info("Ok to get User from UserDaoMemory :" + user.toString());
 				return user;
 			}
 		}

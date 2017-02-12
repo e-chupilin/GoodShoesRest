@@ -1,4 +1,5 @@
 package by.training.rest.service.business.implementation;
+
 import static by.training.rest.service.constants.Constants.*;
 
 import java.util.Collection;
@@ -23,10 +24,10 @@ public class UserDaoSql implements UserDao {
 
 	public UserDaoSql() {
 		super();
-		session = HibernateUtil.getSessionFactory().openSession();		
+		session = HibernateUtil.getSessionFactory().openSession();
 		LOGGER.info("Create sql session.");
 	}
-	
+
 	public void close() {
 		if (session != null) {
 			LOGGER.info("Close sql session. ");
@@ -35,7 +36,7 @@ public class UserDaoSql implements UserDao {
 	}
 
 	public User getUser(String login, String password) throws GoodShoesUserException {
-		
+
 		try {
 			session.beginTransaction();
 			query = session.createQuery(SQL_GET_USER_BY_LOGIN);
@@ -43,9 +44,9 @@ public class UserDaoSql implements UserDao {
 			Collection<Users> users = query.list();
 
 			for (Users iterUsers : users) {
-				if (iterUsers.getId().getLogin().equals(login)) {
+				if (iterUsers.getId().getLogin().equals(login) && iterUsers.getId().getPassword().equals(password)) {
 					User returnUser = usersToUser(iterUsers);
-					LOGGER.info("Return from UserDaoSql: " + returnUser.toString());
+					LOGGER.info("Ok to get user from UserDaoSql: " + returnUser.toString());
 					session.cancelQuery();
 					return returnUser;
 				}
@@ -55,8 +56,8 @@ public class UserDaoSql implements UserDao {
 		} catch (RuntimeException e) {
 			LOGGER.error("Error get user from sql: " + e.getMessage());
 			throw new GoodShoesUserException(e.getMessage());
-		} finally {				
-			//	session.close();
+		} finally {
+			// session.close();
 		}
 	}
 
@@ -74,9 +75,9 @@ public class UserDaoSql implements UserDao {
 				LOGGER.error("Error write user data to sql.", e);
 				return ChangeUser.ERROR_SET;
 			} finally {
-				//	session.close();
-				
-			}			
+				// session.close();
+
+			}
 		} else {
 			LOGGER.info("User not set. Login is busy: " + user.getLogin());
 			return ChangeUser.LOGIN_BUSY;
@@ -86,10 +87,10 @@ public class UserDaoSql implements UserDao {
 	public ChangeUser deleteUser(String login, String password) throws GoodShoesUserException {
 		User userToDel = getUser(login, password);
 		if (userToDel != null) {
-		
+
 			UsersId userId = new UsersId(userToDel);
 			Users users = new Users(userId);
-			
+
 			LOGGER.info("Try to delete: " + login);
 			try {
 				session.beginTransaction();
@@ -101,12 +102,10 @@ public class UserDaoSql implements UserDao {
 				LOGGER.error("Error delete user: " + e.getMessage());
 				return ChangeUser.ERROR_DELETE;
 			} finally {
-				//	session.close();				
-			}			
+				// session.close();
+			}
 
-			
-		}
-		else {
+		} else {
 			LOGGER.info("Delete error. User not found: " + login);
 			return ChangeUser.ERROR_DELETE;
 		}

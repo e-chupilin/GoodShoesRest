@@ -6,11 +6,11 @@ import static by.training.rest.service.constants.Constants.*;
 public class User {
 	
 	private String login;
-	private Role role;
-	private String name;
+	private Role role = DEFAULT_ROLE;
+	private String name = EMPTY_NAME;
 	private String email;
-	private String phone;
-	private String foto;
+	private String phone = EMPTY_PHONE;
+	private String foto = EMPTY_FOTO ;
 	private String password;
 	
 	public User() {
@@ -98,14 +98,11 @@ public class User {
 	
 	
 
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
 	}
 
@@ -122,11 +119,6 @@ public class User {
 			if (other.login != null)
 				return false;
 		} else if (!login.equals(other.login))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
 			return false;
 		return true;
 	}
