@@ -2,7 +2,6 @@ package by.training.rest.service.business.enums;
 
 public enum Role {	
 	BUYER, MANAGER;
-
 		public String toString() {
 			return this.name().toLowerCase();
 		}

@@ -1,9 +1,13 @@
+
+
+import static by.training.rest.service.constants.Constants.*;
+
 import java.io.IOException;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -14,10 +18,9 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import by.training.rest.service.business.beans.User;
-import by.training.rest.service.business.enums.Role;
-import by.training.rest.service.hibernate.HibernateUtil;
-
-import static by.training.rest.service.constants.Constants.*;
+import by.training.rest.service.business.factories.UserDaoFactory;
+import by.training.rest.service.business.factories.UserDaoFactory.Type;
+import by.training.rest.service.interfaces.UserDao;
 
 @Path("/")
 
@@ -29,29 +32,26 @@ public class GoodShoesRs {
 	@GET
 	@Path("/getUser/")
 	@Produces(MediaType.APPLICATION_JSON)
-	
+	@Consumes(MediaType.APPLICATION_JSON)	
 	public Response getUserInJSON(@QueryParam("username") String login, @QueryParam("password") String password) {
-		LOGGER.info("getUser : " + login + DASH + password);
+		LOGGER.info("Rest response to get user: " + login + DASH + password);		
+		UserDao userDao = UserDaoFactory.getAccessObject(Type.MEMORY);		
+		User user = userDao.getUser(login, password);
 		
-		String userAsJson = "{error:error}";
-
-		User user = new User();
-		user.setLogin("kapitan");
-		user.setName("America");
-		user.setEmail("");
-		user.setFoto("");
-		user.setPassword("");
-		user.setPhone("");
-		user.setRole(Role.BUYER);
+		if ( user == null ) {
+			LOGGER.info("User not found: " + login + DASH + password);
+			return Response.status(Status.SERVICE_UNAVAILABLE).entity(ERROR_JSON_USER_NOT_FOUND).build();
+		}
 		
 		try {
-			userAsJson = mapper.writeValueAsString(user);
-			LOGGER.info("Return : " + user);
+			String userAsJson = mapper.writeValueAsString(user);
+			LOGGER.info("User found. Return : " + user);
 			return Response.status(Status.OK).entity(userAsJson).build();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(IO_ERROR_JSON).build();
+			LOGGER.error("Error get user from UserDao: " + userDao.getClass().getName());
+			LOGGER.error("Error: " + e.getMessage());
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ERROR_JSON_IO).build();
 		} 
 		
 	}

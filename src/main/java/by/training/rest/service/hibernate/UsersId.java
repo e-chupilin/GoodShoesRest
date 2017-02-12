@@ -1,3 +1,4 @@
+package by.training.rest.service.hibernate;
 import by.training.rest.service.business.beans.User;
 import by.training.rest.service.business.enums.Role;
 

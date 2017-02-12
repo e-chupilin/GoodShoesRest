@@ -1,11 +1,14 @@
 package by.training.rest.service.business.beans;
 
-import by.training.rest.service.business.enums.Category;
-import by.training.rest.service.business.enums.Rating;
+
 
 import static by.training.rest.service.constants.Constants.*;
 
+import by.training.rest.service.business.enums.Category;
+import by.training.rest.service.business.enums.Rating;
+
 public class Shoes {
+	
 	
 	private int id;
 	private String title;
