@@ -19,7 +19,7 @@ public class ShoesDaoMemory implements ShoesDaoInterface {
 		super();
 		shoesList = new ArrayList<Shoes>();
 		shoesList.add(new Shoes.Builder(1).description("High quality. Best price !").category(Category.LOW_SHOES)
-				.price(100).rating(Rating.FIVE).title("Gentelman shoes").labels("http://funkyimg.com/i/2o7uH.jpg").build());
+				.price(100).rating(Rating.FIVE).title("Gentelman shoes").labels("").build());
 		LOGGER.info("Create shoes dao in memory. Quantity element: " + shoesList.size());
 		LOGGER.info(shoesList.toArray()[0]);		
 	}
