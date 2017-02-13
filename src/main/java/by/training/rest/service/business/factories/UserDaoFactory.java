@@ -1,17 +1,14 @@
 package by.training.rest.service.business.factories;
 
+import by.training.rest.service.business.enums.AccessType;
 import by.training.rest.service.business.implementation.UserDaoMemory;
 import by.training.rest.service.business.implementation.UserDaoSql;
-import by.training.rest.service.interfaces.UserDao;
+import by.training.rest.service.interfaces.UserDaoInterface;
 
 public class UserDaoFactory {
-	private static UserDao objUser = null;
+	private static UserDaoInterface objUser = null;
 
-	public enum Type {
-		MEMORY, SQL;
-	}
-
-	public static UserDao getAccessObject(UserDaoFactory.Type type) {
+	public static UserDaoInterface getAccessObject(AccessType type) {
 		switch (type) {
 		
 		case MEMORY: {

@@ -28,6 +28,7 @@ public class Constants {
 	public static final String ERROR_JSON_USER_NOT_FOUND = "{error: User not found.}";
 	public static final String ERROR_JSON_REGISTER = "{error: Error registered.}";
 	public static final String ERROR_JSON_REGISTER_LOGIN = "{error: Change other login.}";
+	public static final String ERROR_JSON_GET_ALL = "{error: Data load error.}";
 	public static final String OK_JSON_REGISTER = "{error: Ok register.}";
 	
 	public static final String SQL_GET_USER_BY_LOGIN = "FROM Users AS E WHERE E.id.login = :login_param";

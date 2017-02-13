@@ -9,11 +9,11 @@ import org.apache.log4j.Logger;
 import by.training.rest.service.business.beans.User;
 import by.training.rest.service.business.enums.Role;
 import by.training.rest.service.business.enums.ChangeUser;
-import by.training.rest.service.business.exceptions.GoodShoesUserException;
-import by.training.rest.service.interfaces.UserDao;
+import by.training.rest.service.business.exceptions.UserException;
+import by.training.rest.service.interfaces.UserDaoInterface;
 import static by.training.rest.service.constants.Constants.*;
 
-public class UserDaoMemory implements UserDao {
+public class UserDaoMemory implements UserDaoInterface {
 	private Collection<User> users = new ArrayList<User>();
 	private static final Logger LOGGER = Logger.getLogger(UserDaoMemory.class);
 
@@ -25,7 +25,7 @@ public class UserDaoMemory implements UserDao {
 	}
 
 	
-	public User getUser(String login, String password) throws GoodShoesUserException {
+	public User getUser(String login, String password) throws UserException {
 		User searchUser = new User.Builder(login, password).build();
 		for (User user : users) {
 			if (user.equals(searchUser) && user.getPassword().equals(searchUser.getPassword())) {
@@ -39,7 +39,7 @@ public class UserDaoMemory implements UserDao {
 	}
 
 	
-	public ChangeUser setUser(User user) throws GoodShoesUserException {
+	public ChangeUser setUser(User user) throws UserException {
 		if (getUser(user.getLogin(), user.getPassword()) == null) {
 			users.add(user);
 			LOGGER.info("Ok set user in memory :" + user.toString());
@@ -51,7 +51,7 @@ public class UserDaoMemory implements UserDao {
 	}
 
 	
-	public ChangeUser deleteUser(String login, String password) throws GoodShoesUserException {
+	public ChangeUser deleteUser(String login, String password) throws UserException {
 		User searchUser = new User.Builder(login, password).build();
 
 		for (Iterator it = users.iterator(); it.hasNext();) {

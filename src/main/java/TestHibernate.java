@@ -4,7 +4,7 @@ import by.training.rest.service.business.enums.Role;
 import by.training.rest.service.business.implementation.UserDaoMemory;
 import by.training.rest.service.hibernate.Users;
 import by.training.rest.service.hibernate.UsersId;
-import by.training.rest.service.interfaces.UserDao;
+import by.training.rest.service.interfaces.UserDaoInterface;
 
 public class TestHibernate {
 
@@ -24,7 +24,7 @@ public class TestHibernate {
 //			session.getTransaction().commit();
 
 			System.out.println("Test UserDaoSql: ");
-			UserDao sql = new UserDaoMemory();
+			UserDaoInterface sql = new UserDaoMemory();
 			
 			System.out.println(sql.getUser("daed", "12345"));			
 			System.out.println(sql.setUser(user));			

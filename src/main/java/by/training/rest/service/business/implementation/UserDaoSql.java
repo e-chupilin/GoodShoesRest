@@ -11,13 +11,13 @@ import org.hibernate.Session;
 import by.training.rest.service.business.beans.User;
 import by.training.rest.service.business.enums.Role;
 import by.training.rest.service.business.enums.ChangeUser;
-import by.training.rest.service.business.exceptions.GoodShoesUserException;
+import by.training.rest.service.business.exceptions.UserException;
 import by.training.rest.service.hibernate.HibernateUtil;
 import by.training.rest.service.hibernate.Users;
 import by.training.rest.service.hibernate.UsersId;
-import by.training.rest.service.interfaces.UserDao;
+import by.training.rest.service.interfaces.UserDaoInterface;
 
-public class UserDaoSql implements UserDao {
+public class UserDaoSql implements UserDaoInterface {
 	private Session session = null;
 	private Query query = null;
 	private static final Logger LOGGER = Logger.getLogger(UserDaoSql.class);
@@ -35,7 +35,7 @@ public class UserDaoSql implements UserDao {
 		}
 	}
 
-	public User getUser(String login, String password) throws GoodShoesUserException {
+	public User getUser(String login, String password) throws UserException {
 
 		try {
 			session.beginTransaction();
@@ -55,13 +55,13 @@ public class UserDaoSql implements UserDao {
 			return null;
 		} catch (RuntimeException e) {
 			LOGGER.error("Error get user from sql: " + e.getMessage());
-			throw new GoodShoesUserException(e.getMessage());
+			throw new UserException(e.getMessage());
 		} finally {
 			// session.close();
 		}
 	}
 
-	public ChangeUser setUser(User user) throws GoodShoesUserException {
+	public ChangeUser setUser(User user) throws UserException {
 		if (getUser(user.getLogin(), user.getPassword()) == null) {
 			UsersId userId = new UsersId(user);
 			Users users = new Users(userId);
@@ -84,7 +84,7 @@ public class UserDaoSql implements UserDao {
 		}
 	}
 
-	public ChangeUser deleteUser(String login, String password) throws GoodShoesUserException {
+	public ChangeUser deleteUser(String login, String password) throws UserException {
 		User userToDel = getUser(login, password);
 		if (userToDel != null) {
 
